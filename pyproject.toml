@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "maven-dependencies"
+version = "0.1.0"
+description = "Static Maven dependency graph resolver from Git-hosted POMs"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+authors = [{name = "Mikko Ahonen"}]
+
+[project.scripts]
+maven-dependencies = "maven_dependencies.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "."}
+
+[tool.setuptools.packages.find]
+where = ["."]
