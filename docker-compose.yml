@@ -1,0 +1,42 @@
+services:
+  claude:
+    stdin_open: true
+    tty: true
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: claude
+    volumes:
+      - ../../.workspaces/maven-dependencies:/workspaces
+      - ./:/src
+      - pip-cache:/home/dev/.cache/pip
+    environment:
+      - CLAUDE_CONFIG_DIR=/workspaces/claude
+    working_dir: /src
+
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    container_name: maven-dependencies-dev
+
+    # Keep container running
+    stdin_open: true
+    tty: true
+
+    # Mount source code for live development
+    volumes:
+      - ./:/src
+      - pip-cache:/home/dev/.cache/pip
+
+    working_dir: /src
+
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+
+volumes:
+  pip-cache:
