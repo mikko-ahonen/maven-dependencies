@@ -13,6 +13,8 @@ def main() -> None:
     parser.add_argument("--cache-dir", default=".mgi-cache")
     parser.add_argument("--profile-mode", choices=["all", "explicit", "none"], default="all")
     parser.add_argument("--profile", action="append", dest="profiles", default=[])
+    parser.add_argument("--provider", choices=["github", "gitlab"], default=None,
+                        help="Git provider (auto-detected from URL if not specified)")
     parser.add_argument("--no-plugins", action="store_true")
     parser.add_argument("--no-extensions", action="store_true")
     parser.add_argument("--no-plugin-transitive", action="store_true")
@@ -25,6 +27,7 @@ def main() -> None:
         ref=args.ref,
         root_module_path=args.root_module_path,
         cache_dir=args.cache_dir,
+        provider=args.provider,
         profile_mode=args.profile_mode,
         active_profiles=args.profiles,
         include_plugins=not args.no_plugins,

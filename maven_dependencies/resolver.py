@@ -54,6 +54,7 @@ def resolve_repository_graph(
     root_module_path: str = "pom.xml",
     cache_dir: str | None = None,
     repositories: list[str] | None = None,
+    provider: str | None = None,
     profile_mode: str = "all",
     active_profiles: list[str] | None = None,
     include_plugins: bool = True,
@@ -66,8 +67,8 @@ def resolve_repository_graph(
     cache = FileCache(cache_dir)
     result = GraphResult()
 
-    pom_paths = find_pom_files(repo_url, ref, cache)
-    poms = {path: fetch_repo_file(repo_url, ref, path, cache) for path in pom_paths}
+    pom_paths = find_pom_files(repo_url, ref, cache, provider)
+    poms = {path: fetch_repo_file(repo_url, ref, path, cache, provider) for path in pom_paths}
     parsed = {path: parse_pom(xml, f"git:{repo_url}@{ref}:{path}") for path, xml in poms.items()}
     effective_cache: dict[str, EffectivePom] = {}
 
